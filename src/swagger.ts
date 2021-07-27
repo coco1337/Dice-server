@@ -13,9 +13,7 @@ const options: Options = {
     basePath: process.env.basePath,
   },
   apis: [
-    '../controller/*.ts'
-    // './api/v1/**/*.ts',
-    // './swagger/*',
+    '**/*.ts',
   ],
 };
 

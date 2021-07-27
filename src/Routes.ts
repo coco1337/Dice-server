@@ -1,10 +1,10 @@
 import {injectable} from 'inversify';
 import {Router} from 'express';
-import {authRoutes} from '@src/routes/authRoutes';
+import {authController} from '@src/controller/v1/authController';
 
 @injectable()
 export class Routes {
-  constructor(private authRoutes: authRoutes) {
+  constructor(private authRoutes: authController) {
   }
 
   public setRoutes(router: Router) {
