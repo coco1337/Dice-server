@@ -1,6 +1,6 @@
 import {Container} from 'inversify';
-import {Routes} from '@src/routes/Routes';
-import {authRoutes} from '@src/routes/authRoutes';
+import {Routes} from '@src/Routes';
+import {authController} from '@src/controller/v1/authController';
 import {authService} from '@src/service/authService';
 
 export class DiContainer {
@@ -15,7 +15,7 @@ export class DiContainer {
 
     this.configureRepositories();
     this.diContainer.bind<Routes>(Routes).toSelf().inSingletonScope();
-    this.diContainer.bind<authRoutes>(authRoutes).toSelf().inSingletonScope();
+    this.diContainer.bind<authController>(authController).toSelf().inSingletonScope();
 
   }
 
