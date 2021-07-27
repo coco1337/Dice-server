@@ -1,15 +1,10 @@
-import express, {Application, NextFunction, Request, Response} from 'express';
-import {swaggerUi, specs} from './swagger/swagger';
-import swagger from 'swagger-express-ts';
-import {createServer, Server} from 'http';
-
 import 'dotenv/config';
 import 'reflect-metadata';
 import './controller/v1/authController';
 import {createConnection} from 'typeorm';
 import {BootStrap} from '@src/appCode/bootStrap';
 import {DiContainer} from '@src/appCode/diContainer';
-import {Routes} from '@src/routes/Routes';
+import {Routes} from '@src/Routes';
 import {T_Member} from '@src/entities/T_Member';
 
 createConnection({
