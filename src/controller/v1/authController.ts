@@ -1,16 +1,25 @@
-import { inject } from 'inversify';
-import { Request, response } from 'express';
+import {inject, injectable} from 'inversify';
+import {Request, Response, Router} from 'express';
+import {authService} from '@src/service/authService';
 
+@injectable()
 export class authController {
-  constructor() {
-
+  public route = "Auth"
+  constructor(@inject('authService') private authService: authService) {
   }
 
-  public Alive() {
-    return 'success';
-  }
-
-  public async Login(username: string, password: string) {
-
+  public setRoutes(router: Router) {
+    /**
+     * @swagger
+     * /:
+     *  post:
+     *    description: auth
+     *    response:
+     *      200:
+     *        description: auth
+     */
+    router.post(`/${this.route}/Login`, (req: Request, res: Response, next: Function) => {
+      res.send('auth')
+    });
   }
 }
