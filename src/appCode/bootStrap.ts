@@ -1,6 +1,6 @@
 import express from 'express';
-import {Routes} from '@src/routes/Routes';
-import {specs, swaggerUi} from '@src/swagger/swagger';
+import {Routes} from '@src/Routes';
+import {specs, swaggerUi} from '@src/swagger';
 
 export class BootStrap {
   public express = express();
