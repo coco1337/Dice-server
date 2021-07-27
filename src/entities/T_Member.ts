@@ -18,11 +18,11 @@ export class T_Member {
   ip?: string;
 
   @Column()
-  joinDate?: string;
+  joinDate?: Date;
 
   @Column()
-  lastUpdate?: string;
+  lastUpdate?: Date;
 
   @Column()
-  lastLogin?: string;
+  lastLogin?: Date;
 }
