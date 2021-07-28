@@ -11,14 +11,25 @@ export class authController {
   public setRoutes(router: Router) {
     /**
      * @swagger
-     * /:
+     * /Login:
      *  post:
-     *    description: auth
+     *    description: Login
+     *    tags: [Auth]
+     *    requestBody:
+     *      required: true
+     *      content:
+     *        application/json:
+     *          schema:
+     *            $ref: '#components/schemas/Login'
      *    response:
      *      200:
-     *        description: auth
+     *        description: auth Token
+     *        scheme:
+     *          type: object
+     *          $ref: '#/definitions/Login'
      */
-    router.post(`/${this.route}/Login`, (req: Request, res: Response, next: Function) => {
+    router.post(`/${this.route}/Login`, async (req: Request, res: Response, next: Function) => {
+      await this.authService.Login(req.body.userId, req.body.password)
       res.send('auth')
     });
   }
