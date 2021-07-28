@@ -19,14 +19,16 @@ createConnection({
   ],
   synchronize: true,
   logging: true,
-  options: {
-    encrypt: true,
-  },
+  extra: {
+    validateConnection: false,
+    trustServerCertificate: true
+  }
 }).then(async connection => {
   const express = new BootStrap(new DiContainer().diContainer.resolve<Routes>(Routes)).express;
 
   express.listen(process.env.port, () => {
     console.info(`Server is listening on port => ${process.env.port}`);
+    console.info(`docs: http://${process.env.host}/api-docs`);
   });
 }).catch(error => console.error(error));
 
