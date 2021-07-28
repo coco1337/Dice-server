@@ -15,13 +15,13 @@ export class T_Member {
   uuid?: string;
 
   @Column()
+  email?: string;
+
+  @Column()
   ip?: string;
 
   @Column()
   joinDate?: Date;
-
-  @Column()
-  lastUpdate?: Date;
 
   @Column()
   lastLogin?: Date;
