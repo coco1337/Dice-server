@@ -14,14 +14,14 @@ export class User {
   @Column({length: 100, nullable: true})
   uuid?: string;
 
+  @Column({length: 100, nullable: true})
+  email?: string;
+
   @Column({length: 50, nullable: true})
   ip?: string;
 
   @Column({nullable: true})
   joinDate?: Date;
-
-  @Column({nullable: true})
-  lastUpdate?: Date;
 
   @Column({nullable: true})
   lastLogin?: Date;
