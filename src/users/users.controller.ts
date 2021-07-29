@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { SearchUsersPaginateDto } from './dto/search-users-paginate-dto';
 
 @ApiTags('Users')
@@ -9,9 +9,9 @@ import { SearchUsersPaginateDto } from './dto/search-users-paginate-dto';
 export class UsersController {
   constructor(private usersService: UsersService) { }
 
-  @Get('{id}')
-  public Get(id: string): Promise<User> {
-    return this.usersService.get(id);
+  @Get(':username')
+  public Get(@Param('username') username: string): Promise<User> {
+    return this.usersService.get(username);
   }
 
   @Post()
