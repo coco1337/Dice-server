@@ -16,7 +16,7 @@ import { UsersModule } from './users/users.module';
         username: process.env.DBUser,
         password: process.env.DBPass,
         database: process.env.DBName,
-        "entities": ["dist/**/*.entity{.ts,.js}"],
+        entities: ["dist/**/*.entity{.ts,.js}"],
         synchronize: true,
         extra: {
           trustServerCertificate: true,
