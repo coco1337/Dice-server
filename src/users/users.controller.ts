@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Post, Param, UseGuards, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  UseGuards,
+  Request,
+  Ip, Delete,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SearchUsersPaginateDto } from './dto/search-users-paginate-dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserRegisterDto } from './dto/user-register-dto';
 
 @ApiTags('Users')
 @Controller('Users')
@@ -15,7 +25,7 @@ export class UsersController {
     return this.usersService.get(username);
   }
 
-  @Post('/GetAll')
+  @Get('/GetAll')
   public GetAll(@Body() searchUsersPaginateDto: SearchUsersPaginateDto): Promise<User[]> {
     return this.usersService.getAll(searchUsersPaginateDto);
   }
@@ -27,4 +37,15 @@ export class UsersController {
     return request.user;
   }
 
+  @Post('/Register')
+  public async register(@Body() userRegisterDto: UserRegisterDto, @Ip() ip) {
+    return await this.usersService.addAccount(userRegisterDto, ip);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete('/UnRegister')
+  public async unregister(@Request() request) {
+    return await this.usersService.delete(request.user);
+  }
 }
