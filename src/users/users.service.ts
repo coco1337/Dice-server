@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Ip } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
-import { IsNull, Like, Repository } from 'typeorm';
+import { Equal, IsNull, Like, Repository } from 'typeorm';
 import { SearchUsersPaginateDto } from './dto/search-users-paginate-dto';
+import { UserRegisterDto } from './dto/user-register-dto';
 
 @Injectable()
 export class UsersService {
@@ -45,7 +46,24 @@ export class UsersService {
     });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  async addAccount(userInfo: UserRegisterDto, ip: string) {
+    const newUser = this.usersRepository.create({
+      userId: userInfo.username,
+      password: userInfo.password,
+      email: userInfo.email,
+      joinDate: new Date(),
+      ip: ip,
+    });
+    await this.usersRepository.save(newUser);
+  }
+
+  async delete(username: string): Promise<void> {
+    await this.usersRepository
+        .createQueryBuilder()
+        .useTransaction(true)
+        .delete()
+        .from(User)
+        .where('userId = :id', { id: username})
+        .execute();
   }
 }
