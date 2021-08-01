@@ -60,9 +60,10 @@ export class UsersService {
   async delete(username: string): Promise<void> {
     await this.usersRepository
         .createQueryBuilder()
+        .useTransaction(true)
         .delete()
         .from(User)
-        .where('userId = :username', { username: username})
+        .where('userId = :id', { id: username})
         .execute();
   }
 }
