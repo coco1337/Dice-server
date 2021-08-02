@@ -23,7 +23,8 @@ import { UsersModule } from './users/users.module';
         },
       }),
       AuthModule,
-      UsersModule
+      UsersModule,
+      EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
