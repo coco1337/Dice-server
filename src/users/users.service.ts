@@ -57,13 +57,13 @@ export class UsersService {
     await this.usersRepository.save(newUser);
   }
 
-  async delete(username: string): Promise<void> {
+  async delete(payload): Promise<void> {
     await this.usersRepository
         .createQueryBuilder()
         .useTransaction(true)
         .delete()
         .from(User)
-        .where('userId = :id', { id: username})
+        .where('userId = :id', { id: payload.username})
         .execute();
   }
 }
