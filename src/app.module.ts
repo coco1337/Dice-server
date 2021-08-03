@@ -16,7 +16,7 @@ import { UsersModule } from './users/users.module';
         username: process.env.DBUser,
         password: process.env.DBPass,
         database: process.env.DBName,
-        entities: ["dist/**/*.entity{.ts,.js}"],
+        entities: ["dist/**/entities/*.entity{.ts,.js}"],
         synchronize: true,
         extra: {
           trustServerCertificate: true,
@@ -25,6 +25,7 @@ import { UsersModule } from './users/users.module';
       AuthModule,
       UsersModule,
       EventsModule,
+      LogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
