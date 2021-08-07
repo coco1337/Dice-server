@@ -1,29 +1,16 @@
-import { Injectable, Ip } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './users.entity';
-import { Equal, IsNull, Like, Repository } from 'typeorm';
-import { SearchUsersPaginateDto } from './dto/search-users-paginate-dto';
+import { User } from './entities/users.entity';
+import { Repository } from 'typeorm';
 import { UserRegisterDto } from './dto/user-register-dto';
+import { randomUUID } from 'crypto';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
-      @InjectRepository(User) private usersRepository: Repository<User>,
-  ) { }
-
-  get(username: string): Promise<User> {
-    return this.usersRepository.findOne({
-      select: [
-        'userId',
-        'email',
-        'uuid',
-        'ip',
-        'joinDate',
-        'lastLogin',
-      ],
-      where: {userId: username},
-    });
-  }
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
 
   getAccount(username: string): Promise<User> {
     return this.usersRepository.findOne({
@@ -31,39 +18,30 @@ export class UsersService {
     });
   }
 
-  getAll(searchCriteria: SearchUsersPaginateDto): Promise<User[]> {
-    return this.usersRepository.find({
-      select: [
-        'userId',
-        'email',
-        'uuid',
-        'ip',
-        'joinDate',
-        'lastLogin',
-      ],
-      take: searchCriteria.take,
-      skip: searchCriteria.skip,
-    });
-  }
-
   async addAccount(userInfo: UserRegisterDto, ip: string) {
     const newUser = this.usersRepository.create({
       userId: userInfo.username,
-      password: userInfo.password,
+      password: await this.encryptPassword(userInfo.password),
       email: userInfo.email,
       joinDate: new Date(),
       ip: ip,
+      uuid: randomUUID(),
     });
     await this.usersRepository.save(newUser);
   }
 
-  async delete(username: string): Promise<void> {
+  async delete(payload): Promise<void> {
     await this.usersRepository
         .createQueryBuilder()
         .useTransaction(true)
         .delete()
         .from(User)
-        .where('userId = :id', { id: username})
+        .where('userId = :id', { id: payload.username})
         .execute();
+  }
+
+  async encryptPassword(password: string): Promise<string> {
+    const salt = await genSalt(10);
+    return await hash(password, salt);
   }
 }
