@@ -4,6 +4,7 @@ import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
 import { UserRegisterDto } from './dto/user-register-dto';
 import { randomUUID } from 'crypto';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,7 @@ export class UsersService {
   async addAccount(userInfo: UserRegisterDto, ip: string) {
     const newUser = this.usersRepository.create({
       userId: userInfo.username,
-      password: userInfo.password,
+      password: await this.encryptPassword(userInfo.password),
       email: userInfo.email,
       joinDate: new Date(),
       ip: ip,
@@ -37,5 +38,10 @@ export class UsersService {
         .from(User)
         .where('userId = :id', { id: payload.username})
         .execute();
+  }
+
+  async encryptPassword(password: string): Promise<string> {
+    const salt = await genSalt(10);
+    return await hash(password, salt);
   }
 }
