@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { LogsModule } from './logs/logs.module';
 import { LoggerOptions } from 'typeorm';
+import { DiceCoreService } from './dice-core/dice-core.service';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { LoggerOptions } from 'typeorm';
       LogsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DiceCoreService],
 })
 export class AppModule {}
