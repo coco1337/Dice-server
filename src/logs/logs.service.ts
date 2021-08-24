@@ -7,8 +7,8 @@ import { UsersService } from '../users/users.service';
 @Injectable()
 export class LogsService {
   constructor(
-      @InjectRepository(
-          LoginLog) private loginLogRepository: Repository<LoginLog>,
+      @InjectRepository(LoginLog)
+      private loginLogRepository: Repository<LoginLog>,
       private usersService: UsersService,
   ) {}
 
