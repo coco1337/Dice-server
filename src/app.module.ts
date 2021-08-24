@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { LogsModule } from './logs/logs.module';
+import { LoggerOptions } from 'typeorm';
 import { DiceCoreService } from './dice-core/dice-core.service';
 
 @Module({
@@ -24,6 +25,7 @@ import { DiceCoreService } from './dice-core/dice-core.service';
         extra: {
           trustServerCertificate: true,
         },
+        logging: process.env.Logging as LoggerOptions
       }),
       AuthModule,
       UsersModule,
