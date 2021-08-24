@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { LogsModule } from './logs/logs.module';
+import { LoggerOptions } from 'typeorm';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LogsModule } from './logs/logs.module';
         extra: {
           trustServerCertificate: true,
         },
+        logging: process.env.Logging as LoggerOptions
       }),
       AuthModule,
       UsersModule,
