@@ -7,6 +7,9 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { DiceCoreService } from '../dice-core/dice-core.service';
+import { IMessage } from './packet-schema/message.type';
+import { ESendOption } from "src/events/packet-schema/send-option-enum";
+type SendOption = typeof ESendOption[keyof typeof ESendOption];
 
 @WebSocketGateway({ cors: 'null,localhost' })
 export class EventsGateway {
@@ -32,8 +35,11 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('message')
-  handleMessage(@ConnectedSocket() client: any, @MessageBody() packet: any): string {
+  handleMessage(@ConnectedSocket() client: any, @MessageBody() packet: any): void {
     console.log(`incomming message: ${packet}`);
-    return this.diceCoreService.HandleMessage(packet.data);
+    const msg: IMessage = this.diceCoreService.HandleMessage(packet.data);
+    if (msg.option === ESendOption.RESPONSE_TO_SENDER) {
+      client.emit('message', JSON.stringify(msg.msg));
+    }
   }
 }
