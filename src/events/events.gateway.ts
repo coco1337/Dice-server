@@ -32,7 +32,7 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('message')
-  handleMessage(@ConnectedSocket() client: any, @MessageBody() packet: any): void {
+  handleMessage(@ConnectedSocket() client: any, @MessageBody() packet: any): string {
     console.log(`incomming message: ${packet}`);
     this.diceCoreService.HandleMessage(packet.data);
   }

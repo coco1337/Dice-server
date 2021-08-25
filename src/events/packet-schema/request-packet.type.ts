@@ -3,4 +3,5 @@ type PacketId = typeof EPacketId[keyof typeof EPacketId];
 
 export interface IRequestPacket {
   id: PacketId;
+  sender: string;
 }
