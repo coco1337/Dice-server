@@ -13,4 +13,7 @@ export class RollDiceRes implements IResponsePacket {
 
   @ApiProperty()
   result: EError;
+
+  @ApiProperty()
+  diceResult: number;
 }
