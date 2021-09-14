@@ -5,4 +5,7 @@ export interface IRequestPacket {
   id: PacketId;
   sender: string;
 }
-``
+
+export interface ICreateRoomReq extends IRequestPacket {
+  
+}

@@ -7,3 +7,15 @@ export interface IResponsePacket {
   tick: number;
   result: EError;
 }
+
+export interface ICreateRoomRes extends IResponsePacket {
+  roomId: string;
+}
+
+export interface IPlayerJoinNoti extends IResponsePacket {
+  playerGuid: string;
+}
+
+export interface IStartGameNoti extends IResponsePacket {
+  
+}

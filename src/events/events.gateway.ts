@@ -21,8 +21,11 @@ export class EventsGateway {
   @WebSocketServer()
   private server: Server;
   private clients: Array<IWebSocket> = [];
+  private diceCoreService: DiceCoreService;
 
-  constructor(private diceCoreService: DiceCoreService) { }
+  constructor() {
+    this.diceCoreService = new DiceCoreService();
+  }
 
   handleConnection(@ConnectedSocket() client: IWebSocket) {
     client.id = `${this.clients.length}`;
@@ -43,7 +46,7 @@ export class EventsGateway {
   @SubscribeMessage('DiceGame')
   diceEvent(client: IWebSocket, data: IRequestPacket): void {
     console.log(data);
-    const res: IMessage = this.diceCoreService.HandleMessage(data);
+    const res: IMessage = this.diceCoreService.HandleMessage(data, client);
     switch (res.option) {
       case ESendOption.BROADCAST_TO_ALL: {
 
@@ -60,7 +63,7 @@ export class EventsGateway {
   @SubscribeMessage('message')
   handleMessage(@ConnectedSocket() client: IWebSocket, @MessageBody() packet: any): void {
     console.log(`incomming message: ${packet}`);
-    const msg: IMessage = this.diceCoreService.HandleMessage(packet.data);
+    const msg: IMessage = this.diceCoreService.HandleMessage(packet.data, client);
     if (msg.option === ESendOption.RESPONSE_TO_SENDER) {
       // client.send('message', JSON.stringify(msg.msg));
     }
